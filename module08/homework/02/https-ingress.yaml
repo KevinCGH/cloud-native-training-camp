@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: httpserver-80
+  annotations:
+    cert-manager.io/issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: kevinzone.top
+      http:
+        paths:
+          - backend:
+              service:
+                name: httpservice
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - kevinzone.top
+      secretName: kevin-tls
