@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpserver
+spec:
+  gateways:
+    - httpserver
+  hosts:
+    - api.kevinzone.top
+  http:
+    - match:
+      - uri:
+        prefix: /nginx
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: nginx.mod12.svc.cluster.local
+            port:
+              number: 80
+    - match:
+      - uri:
+         exact: /v2/healthz
+      rewrite:
+         uri: /healthz
+      route:
+        - destination:
+            host: httpserver.mod12.svc.cluster.local
+            port:
+              number: 80
+
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpserver
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - api.kevinzone.top
+      port:
+        name: http-server
+        number: 443
+        protocal: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: kevin-tls
