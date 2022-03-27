@@ -2,9 +2,9 @@
 
 把我们的 httpserver 服务以 Istio Ingress Gateway 的形式发布出来。以下是你需要考虑的几点：
 
--[x] 如何实现安全保证；
--[x] 七层路由规则；
--[x] 考虑 open tracing 的接入。
+- [x] 如何实现安全保证
+- [x] 七层路由规则
+- [x] 考虑 open tracing 的接入
 
 ## 部署Istio
 使用 `helm` 安装 `istio`
